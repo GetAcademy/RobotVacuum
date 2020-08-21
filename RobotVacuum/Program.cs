@@ -6,8 +6,8 @@ namespace RobotVacuum
     {
         static void Main(string[] args)
         {
-            var size = 2;
-            var sequenceOfActions = new Action[size * size * 2 + 1];
+            var size = 4;
+            var sequenceOfActions = new Action[size * size * 2 -1];
             while (true)
             {
                 var currentRow = 0;
@@ -33,7 +33,7 @@ namespace RobotVacuum
                     else
                     {
                         var deltaDirection = action == Action.TurnLeft ? -1 : 1;
-                        currentDirection = currentDirection + deltaDirection;
+                        currentDirection = (Direction)(((int)currentDirection + deltaDirection) % 4);
                     }
                 }
 
