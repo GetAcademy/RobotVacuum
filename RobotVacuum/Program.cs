@@ -7,14 +7,14 @@ namespace RobotVacuum
         static void Main(string[] args)
         {
             var size = 2;
-            var sequenceOfActions = new Action[size * size * 2 - 1];
+            var sequenceOfActions = new Action[size * size * 2 + 1];
             while (true)
             {
                 var currentRow = 0;
                 var currentCol = 0;
                 var currentDirection = Direction.East;
                 var cellsVisited = new bool[size * size];
-                cellsVisited[0] = true;
+                //cellsVisited[0] = true;
                 foreach (var action in sequenceOfActions)
                 {
                     if (action == Action.GoForward)
@@ -27,7 +27,6 @@ namespace RobotVacuum
                         {
                             break;
                         }
-
                         var cellVisitedIndex = currentRow * size + currentCol;
                         cellsVisited[cellVisitedIndex] = true;
                     }
@@ -56,7 +55,8 @@ namespace RobotVacuum
                 int i;
                 for (i = sequenceOfActions.Length - 1; i >= 0; i--)
                 {
-                    if ((int)sequenceOfActions[i] < 2)
+                    var actionInt = (int)sequenceOfActions[i];
+                    if (actionInt < 2)
                     {
                         sequenceOfActions[i]++;
                         break;
