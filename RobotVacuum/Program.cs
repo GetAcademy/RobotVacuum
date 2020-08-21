@@ -7,7 +7,7 @@ namespace RobotVacuum
         static void Main(string[] args)
         {
             var size = 2;
-            var sequenceOfActions = new Action[size * size * 2 -1];
+            var sequenceOfActions = new Action[7];
             while (true)
             {
                 var currentRow = 0;
@@ -42,7 +42,7 @@ namespace RobotVacuum
                 {
                     if (!cellVisited) hasAllCellsBeenVisited = false;
                 }
-                if (currentCol == 0 && hasAllCellsBeenVisited)
+                if (currentCol == 0 && currentRow == 0 && hasAllCellsBeenVisited)
                 {
                     Console.WriteLine();
                     foreach (var action in sequenceOfActions)
