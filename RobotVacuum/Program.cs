@@ -6,7 +6,7 @@ namespace RobotVacuum
     {
         static void Main(string[] args)
         {
-            var size = 4;
+            var size = 2;
             var sequenceOfActions = new Action[size * size * 2 -1];
             while (true)
             {
