@@ -10,31 +10,13 @@ namespace RobotVacuum
             var sequenceOfActions = new Action[7];
             while (true)
             {
-                var currentRow = 0;
-                var currentCol = 0;
-                var currentDirection = Direction.East;
+                var robot = new Robot();
                 var cellsVisited = new bool[size * size];
                 //cellsVisited[0] = true;
                 foreach (var action in sequenceOfActions)
                 {
-                    if (action == Action.GoForward)
-                    {
-                        if (currentDirection == Direction.East) currentCol++;
-                        else if (currentDirection == Direction.West) currentCol--;
-                        else if (currentDirection == Direction.North) currentRow--;
-                        else if (currentDirection == Direction.South) currentRow++;
-                        if (currentRow < 0 || currentRow >= size || currentCol < 0 || currentCol >= size)
-                        {
-                            break;
-                        }
-                        var cellVisitedIndex = currentRow * size + currentCol;
-                        cellsVisited[cellVisitedIndex] = true;
-                    }
-                    else
-                    {
-                        var deltaDirection = action == Action.TurnLeft ? -1 : 1;
-                        currentDirection = (Direction)(((int)currentDirection + deltaDirection) % 4);
-                    }
+                    var isSuccess = robot.Do(action, size, cellsVisited);
+                    if (!isSuccess) break;
                 }
 
                 var hasAllCellsBeenVisited = true;
@@ -42,34 +24,47 @@ namespace RobotVacuum
                 {
                     if (!cellVisited) hasAllCellsBeenVisited = false;
                 }
-                if (currentCol == 0 && currentRow == 0 && hasAllCellsBeenVisited)
+                if (robot.currentCol == 0 && robot.currentRow == 0 && hasAllCellsBeenVisited)
                 {
-                    Console.WriteLine();
-                    foreach (var action in sequenceOfActions)
-                    {
-                        Console.WriteLine(action.ToString());
-                    }
+                    ShowSequenceOfAcions(sequenceOfActions);
                     return;
                 }
                 Console.Write(".");
-                int i;
-                for (i = sequenceOfActions.Length - 1; i >= 0; i--)
-                {
-                    var actionInt = (int)sequenceOfActions[i];
-                    if (actionInt < 2)
-                    {
-                        sequenceOfActions[i]++;
-                        break;
-                    }
-                    sequenceOfActions[i] = 0;
-                }
-
-                if (i == -1)
+                var isFinished = GoToNextSequenceOfAction(sequenceOfActions);
+                if (isFinished)
                 {
                     Console.WriteLine("Fant ingen løsning.");
                     return;
                 }
             }
+        }
+
+        private static void ShowSequenceOfAcions(Action[] sequenceOfActions)
+        {
+            Console.WriteLine();
+            foreach (var action in sequenceOfActions)
+            {
+                Console.WriteLine(action.ToString());
+            }
+        }
+
+        private static bool GoToNextSequenceOfAction(Action[] sequenceOfActions)
+        {
+            int i;
+            for (i = sequenceOfActions.Length - 1; i >= 0; i--)
+            {
+                var actionInt = (int)sequenceOfActions[i];
+                if (actionInt < 2)
+                {
+                    sequenceOfActions[i]++;
+                    break;
+                }
+
+                sequenceOfActions[i] = 0;
+            }
+
+            var isFinished = i == -1;
+            return isFinished;
         }
     }
 }
