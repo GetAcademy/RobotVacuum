@@ -6,25 +6,18 @@ namespace RobotVacuum
     {
         static void Main(string[] args)
         {
-            var size = 2;
+            var room = new Room(2);
             var sequenceOfActions = new Action[7];
             while (true)
             {
-                var robot = new Robot();
-                var cellsVisited = new bool[size * size];
-                //cellsVisited[0] = true;
+                var robot = new Robot(room);
                 foreach (var action in sequenceOfActions)
                 {
-                    var isSuccess = robot.Do(action, size, cellsVisited);
+                    var isSuccess = robot.Do(action);
                     if (!isSuccess) break;
                 }
 
-                var hasAllCellsBeenVisited = true;
-                foreach (var cellVisited in cellsVisited)
-                {
-                    if (!cellVisited) hasAllCellsBeenVisited = false;
-                }
-                if (robot.currentCol == 0 && robot.currentRow == 0 && hasAllCellsBeenVisited)
+                if (robot.CurrentCol == 0 && robot.CurrentRow == 0 && room.AllPartsHaveBeenVisited)
                 {
                     ShowSequenceOfAcions(sequenceOfActions);
                     return;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RobotVacuum
 {
-    enum Direction
+    public enum Direction
     {
         North = 0,
         East = 1,

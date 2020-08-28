@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RobotVacuum
 {
-    enum Action
+    public enum Action
     {
         GoForward = 0,
         TurnLeft = 1,

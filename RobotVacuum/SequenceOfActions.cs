@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RobotVacuum
 {
-    class SequenceOfActions
+    public class SequenceOfActions
     {
     }
 }

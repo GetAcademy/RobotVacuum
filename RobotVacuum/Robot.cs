@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace RobotVacuum
 {
-    class Robot
+    public class Robot
     {
-        public int currentRow = 0;
-        public int currentCol = 0;
+        public int CurrentRow { get; private set; }
+        public int CurrentCol { get; private set; }
         public Direction currentDirection = Direction.East;
+        private Room _room;
 
-        public bool Do(Action action, int size, bool[] cellsVisited)
+        public Robot(Room room)
+        {
+            _room = room;
+        }
+
+        public bool Do(Action action)
         {
             if (action == Action.GoForward)
             {
-                if (currentDirection == Direction.East) currentCol++;
-                else if (currentDirection == Direction.West) currentCol--;
-                else if (currentDirection == Direction.North) currentRow--;
-                else if (currentDirection == Direction.South) currentRow++;
-                if (currentRow < 0 || currentRow >= size || currentCol < 0 || currentCol >= size)
-                {
-                    return false;
-                }
-                var cellVisitedIndex = currentRow * size + currentCol;
-                cellsVisited[cellVisitedIndex] = true;
+                if (currentDirection == Direction.East) CurrentCol++;
+                else if (currentDirection == Direction.West) CurrentCol--;
+                else if (currentDirection == Direction.North) CurrentRow--;
+                else if (currentDirection == Direction.South) CurrentRow++;
+                if (!_room.SetVisitedAndReturnIsValid(CurrentRow, CurrentCol)) return false;
             }
             else
             {
